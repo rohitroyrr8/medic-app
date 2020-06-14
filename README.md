@@ -34,3 +34,6 @@ Install these prerequisites in your machine
 
 ## Step 6. Down the Fabric network
 `./fabricNetwork down`
+
+for more resources
+https://drive.google.com/drive/folders/1t3uM2ui2DVrG-DWH_TJ4Fv5n-ERufOav?usp=sharing
