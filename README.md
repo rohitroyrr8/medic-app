@@ -11,7 +11,7 @@ Install these prerequisites in your machine
 - Hyperledger Fabric Binaries v1.4.3
 
 ## Step 1. Clone the project
-`git clone https://github.com/rohitroyrr8/certification-network`
+`git clone https://github.com/rohitroyrr8/medic-app.git`
 
 ## Step 2. Generate Crypto Materials & Crypto config files
 `cd network`
