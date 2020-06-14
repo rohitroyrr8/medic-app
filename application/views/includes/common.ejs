@@ -1,0 +1,25 @@
+<!-- Add patients modals -->
+<div class="modal fade" id="add-patient" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Add new patient</h5></div>
+            <form action="<%= baseURL %>/patients/save" method="GET">
+                <div class="modal-body">
+                        <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Full Name" /></div>
+                        <div class="form-group"><input class="form-control" type="number" name="mobile" placeholder="Mobile No." /></div>
+                        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email id" required/></div>
+                        <div class="form-group"><input class="form-control" type="date" name="dateOfBirth" placeholder="Date of Birth" required/></div>
+                        <div class="form-group mb-0"><textarea class="form-control" placeholder="Address" name="address" rows="3"></textarea></div>
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button> 
+                        <input class="btn btn-info" type="submit" name="addpatient" value="Add Patient">
+                        <!-- <button type="button" class="btn btn-info">Add patient</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end Add patients modals -->

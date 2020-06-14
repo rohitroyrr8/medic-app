@@ -1,0 +1,13 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: medic-app.com
+    Specs:
+      - Hostname: orderer
+PeerOrgs:
+ - Name: allparticipants
+   Domain: allparticipants.medic-app.com
+   EnableNodeOUs: true
+   Template:
+      Count: 2
+   Users:
+      Count: 1

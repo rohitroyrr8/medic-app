@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Alers",
+        "policy": "OR ('allparticipantsMSP.admin', 'allparticipantsMSP.member', 'allparticipantsMSP.peer', 'allparticipantsMSP.client')",
+        "requiredPerCount": 0, 
+        "maxPeerCount": 3,
+        "blockToLive": 0,
+        "memberOnlyRead": true
+    }
+]

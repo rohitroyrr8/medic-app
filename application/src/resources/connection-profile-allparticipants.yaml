@@ -1,0 +1,76 @@
+---
+#
+# The network connection profile provides client applications the information about the target
+# blockchain network that are necessary for the applications to interact with it. These are all
+# knowledge that must be acquired from out-of-band sources. This file provides such a source.
+#
+name: "network_medicnetwork"
+
+x-type: "hlfv1"
+
+description: "Fabric Network"
+
+version: "1.0"
+
+client:
+  organization: allparticipants
+  connection:
+    timeout:
+      peer:
+        endorser: 300
+        eventHub: 300
+        eventReg: 300
+      orderer: 300
+
+channels:
+  medicchannel:
+    orderers:
+      - orderer.medic-app.com
+    peers:
+      peer0.allparticipants.medic-app.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+      peer1.allparticipants.medic-app.com:
+        endorsingPeer: false
+        chaincodeQuery: false
+        ledgerQuery: true
+        eventSource: false
+
+organizations:
+  allparticipants:
+    mspid: allparticipantsMSP
+    peers:
+      - peer0.allparticipants.medic-app.com
+      - peer1.allparticipants.medic-app.com
+    certificateAuthorities:
+      - ca.allparticipants.medic-app.com
+
+orderers:
+  orderer.medic-app.com:
+    url: grpc://localhost:7050
+    grpcOptions:
+      ssl-target-name-override: orderer.medic-app.com
+    tlsCACerts:
+      path: /home/rohit/workspace/medicApp/network/crypto-config/ordererOrganizations/medic-app.com/orderers/orderer.medic-app.com/msp/tlscacerts/tlsca.medic-app.com-cert.pem
+
+peers:
+  peer0.allparticipants.medic-app.com:
+    url: grpc://localhost:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.allparticipants.medic-app.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: /home/rohit/workspace/medicApp/network/crypto-config/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/msp/tlscacerts/tlsca.allparticipants.medic-app.com-cert.pem
+certificateAuthorities:
+  ca.allparticipants.medic-app.com:
+    url: http://localhost:7054
+    httpOptions:
+      verify: false
+    tlsCACerts:
+      path: /home/rohit/workspace/medicApp/network/crypto-config/peerOrganizations/allparticipants.medic-app.com/ca/ca.allparticipants.medic-app.com-cert.pem
+    registrar:
+      - enrollId: admin
+        enrollSecret: adminpw
+    caName: ca.allparticipants.medic-app.com

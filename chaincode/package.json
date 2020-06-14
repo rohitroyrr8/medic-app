@@ -1,0 +1,68 @@
+{
+  "name": "medicnet",
+  "version": "0.0.1",
+  "description": "MEDIC Network",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "scripts": {
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "pretest": "npm run lint",
+    "test": "nyc mocha -r ts-node/register 'tests/**/*.spec.ts'",
+    "test-single": "nyc mocha -r ts-node/register $1",
+    "debug-test": "mocha --insert-brk -r ts-node/register tests/**/*.spec.ts",
+    "start": "fabric-chaincode-node start",
+    "start-dev": "fabric-chaincode-node start --peer.address peer0.allparticipants.medic-app.com:7053 --chaincode-id-name medicnet:1.1",
+    "build": "tsc",
+    "build:watch": "tsc -w"
+  },
+  "engineStrict": true,
+  "author": "Rohit Roy",
+  "dependencies": {
+    "fabric-contract-api": "~1.4.0",
+    "fabric-shim": "~1.4.0",
+    "gulp": "^4.0.0",
+    "js-yaml": "^3.12.0",
+    "log4js": "^0.6.38",
+    "mocha": "^5.2.0",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "typescript-eslint-parser": "^22.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.10",
+    "@types/sinon": "^5.0.7",
+    "@types/sinon-chai": "^3.2.1",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  },
+  "nyc": {
+    "exclude": [
+      "coverage/**",
+      "test/**"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "statements": 100,
+    "branches": 100,
+    "functions": 100,
+    "lines": 100
+  }
+}

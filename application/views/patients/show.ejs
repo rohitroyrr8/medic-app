@@ -1,0 +1,141 @@
+<%- extend('../layouts/app') %>
+
+<main class="main-content">
+    <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+    <div class="main-content-wrap">
+        <div class="add-patient" style="float: right;">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#add-patient-history"><span class="btn-icon icofont-plus mr-2"></span> Add History Patient</button>
+        </div>
+        <header class="page-header"><h1 class="page-title">Patient Profile & History</h1></header>
+        <div class="page-content">
+            <div class="row">
+                <div class="col col-12 col-md-6 mb-4">
+                    <form>
+                        <div class="row">
+                            <div class="col-12 col-sm-12">
+                                <div class="form-group"><label>Email Id</label> <input class="form-control" type="email" placeholder="Email Id"value="<%= patient.email %>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group"><label>Full name</label> <input class="form-control" type="text" placeholder="First name" value="<%= patient.name  %>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group"><label>Mobile No.</label> <input class="form-control" type="tel" placeholder="Mobile No." value="<%= patient.mobile%>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <div class="form-group"><label>Date Of Birth</label> <input class="form-control" type="text" value="<%= new Date(patient.dateOfBirth).toDateString() %>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <div class="form-group"><label>Last Visit</label> <input class="form-control" type="text" value="<%= new Date(patient.lastVisit).toDateString() %>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <div class="form-group"><label>Created On</label> <input class="form-control" type="text" value="<%= new Date(patient.createdOn).toDateString() %>" disabled /></div>
+                            </div>
+                            <div class="col-12 col-sm-12" >
+                                <div class="form-group"><label>Address</label> <textarea class="form-control" placeholder="Address" rows="3" disabled><%= patient.address %></textarea></div>
+                            </div>
+                        </div>
+                        <!-- <button type="button" class="btn btn-primary btn-block">Save changes</button> -->
+                    </form>
+                </div>
+                <div class="col col-12 col-md-6 mb-4">
+                    <div class="v-timeline align-right">
+                        <div class="line"></div>
+                        <div class="timeline-box">
+                            <% patient.pastHistory.forEach(element => { %>
+                                <div class="box-label"><span class="badge badge-primary"><%= new Date(element.admissionDate).toDateString() %></span></div>
+                                <div class="box-items">
+                                    <div class="item">
+                                        <div class="icon-block"><div class="item-icon icofont-doctor-alt bg-info"></div></div>
+                                        <div class="content-block">
+                                            <div class="item-header">
+                                                <h3 class="h5 item-title">Admission</h3>
+                                                <div class="item-date"><span><%= new Date(element.admissionDate).toDateString() %> </span></div>
+                                            </div>
+                                            <div class="item-desc">Patient is diseased with <%= element.ailment %>.</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                    <div class="icon-block"><div class="item-icon icofont-doctor-alt bg-info"></div></div>
+                                    <div class="content-block">
+                                        <div class="item-header">
+                                            <h3 class="h5 item-title">Diagnosis</h3>
+                                            <div class="item-date"><span><%= new Date(element.admissionDate).toDateString() %> </span></div>
+                                        </div>
+                                        <div class="item-desc">Did <%= element.diagnosis %> for addressing the actual problem.</div>
+                                    </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="icon-block"><div class="item-icon icofont-doctor-alt bg-success"></div></div>
+                                        <div class="content-block">
+                                            <div class="item-header">
+                                                <h3 class="h5 item-title">Doctor Assigned</h3>
+                                                <div class="item-date"><span><%= new Date(element.admissionDate).toDateString() %> </span></div>
+                                            </div>
+                                            <div class="item-desc"><%= element.attendingDoctor %> was assigned to this case.</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="icon-block"><div class="item-icon icofont-drug bg-danger"></div></div>
+                                        <div class="content-block">
+                                            <div class="item-header">
+                                                <h3 class="h5 item-title">Treatment</h3>
+                                                <div class="item-date"><span><%= new Date(element.admissionDate).toDateString() %> </span></div>
+                                            </div>
+                                            <div class="item-desc">Procedure (<%= element.treatment %>) did to get rid of this problem.</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="icon-block"><div class="item-icon icofont-doctor-alt bg-info"></div></div>
+                                        <div class="content-block">
+                                            <div class="item-header">
+                                                <h3 class="h5 item-title">Discharged</h3>
+                                                <div class="item-date"><span><%= new Date(element.dischargeDate).toDateString() %> </span></div>
+                                            </div>
+                                            <div class="item-desc">Comments: <%= element.comments %></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<div class="modal fade" id="add-patient-history" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Add Patient History</h5></div>
+            <form action="<%= baseURL %>/patients/history/save" method="GET">
+                <div class="modal-body">
+                        <% if (email) { %>
+                            <input class="form-control" type="hidden" name="email" value="<%= email %>" />
+                        <% } %>
+                        <div class="form-group"><input class="form-control" type="text" name="ailment" placeholder="Ailment Name" /></div>
+                        <div class="form-group"><input class="form-control" type="text" name="treatment" placeholder="Treatment" /></div>
+                        <div class="form-group"><input class="form-control" type="text" name="diagnosis" placeholder="Diagnosis" required/></div>
+                        <div class="form-group"><input class="form-control" type="date" name="admissionDate" placeholder="Date of Admission" required/></div>
+                        <div class="form-group"><input class="form-control" type="date" name="dischargeDate" placeholder="Date of Discharge" required/></div>
+                        <div class="form-group"><input class="form-control" type="text" name="doctor" placeholder="Attending Doctor Name" required/></div>
+                        <div class="form-group mb-0"><textarea class="form-control" placeholder="Comments" name="comment" rows="3"></textarea></div>
+                        <label>Payment Details</label>
+                        <div class="row">
+                            <div class="col-sm-4"><div class="form-group"><input class="form-control" type="number" name="amount" placeholder="Amount" required/></div></div>
+                            <div class="col-sm-4"><div class="form-group"><input class="form-control" type="number" name="discount" placeholder="Discount" required/></div></div>
+                            <div class="col-sm-4"><div class="form-group"><input class="form-control" type="number" name="tax" placeholder="Tax" required/></div></div>
+                        </div>
+                        
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button> 
+                        <input class="btn btn-info" type="submit" name="addpatient" value="Add Patient">
+                        <!-- <button type="button" class="btn btn-info">Add patient</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

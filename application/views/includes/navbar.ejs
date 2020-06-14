@@ -1,0 +1,139 @@
+<!-- Horizontal navbar -->
+<div id="navbar1" class="app-navbar horizontal">
+    <div class="navbar-wrap">
+        <button class="no-style navbar-toggle navbar-open d-lg-none"><span></span><span></span><span></span></button>
+        <form class="app-search d-none d-md-block">
+            <div class="form-group typeahead__container with-suffix-icon mb-0">
+                <div class="typeahead__field">
+                    <div class="typeahead__query">
+                        <span class="typeahead__cancel-button">×</span><span class="typeahead__cancel-button">×</span>
+                        <input class="form-control autocomplete-control topbar-search" type="search" placeholder="Type page&#39;s title" autocomplete="off" data-source="../assets/data/search-menu.json" />
+                        <div class="suffix-icon icofont-search"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="app-actions">
+            <div class="dropdown item">
+                <button class="no-style dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0, 12">
+                    <span class="icon icofont-notification"></span> <span class="badge badge-danger badge-sm">5</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
+                    <div class="menu-header">
+                        <h4 class="h5 menu-title mt-0 mb-0">Notifications</h4>
+                        <a href="#" class="text-danger">Clear All</a>
+                    </div>
+                    <ul class="list">
+                        <li>
+                            <a href="#">
+                                <span class="icon icofont-users-alt-6"></span>
+                                <div class="content"><span class="desc">New patient admitted</span> <span class="date">5 minutes ago</span></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="icon icofont-ui-message"></span>
+                                <div class="content"><span class="desc">You have a new message</span> <span class="date">58 minutes ago</span></div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="menu-footer">
+                        <button class="btn btn-primary btn-block">View all notifications <span class="btn-icon ml-2 icofont-tasks-alt"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown item">
+                <button class="no-style dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="0, 10">
+                    <span class="d-flex align-items-center">
+                        <img src="images/user-400-1.jpg" alt="" width="40" height="40" class="rounded-500 mr-1" /> <i class="icofont-simple-down"></i>
+                    </span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
+                    <ul class="list">
+                        <li>
+                            <a href="#" class="align-items-center"><span class="icon icofont-ui-settings"></span> Settings</a>
+                        </li>
+                        <li>
+                            <a href="<%= baseURL %>/api/auth/logout" class="align-items-center"><span class="icon icofont-logout"></span> Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-skeleton horizontal">
+            <div class="left-part d-flex align-items-center">
+                <span class="navbar-button bg animated-bg d-lg-none"></span> <span class="sk-logo bg animated-bg d-none d-lg-block"></span> <span class="search d-none d-md-block bg animated-bg"></span>
+            </div>
+            <div class="right-part d-flex align-items-center">
+                <div class="icon-box"><span class="icon bg animated-bg"></span> <span class="badge"></span></div>
+                <span class="avatar bg animated-bg"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end Horizontal navbar --><!-- Vertical navbar -->
+<div id="navbar2" class="app-navbar vertical">
+    <div class="navbar-wrap">
+        <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
+        <div class="app-logo">
+            <div class="logo-wrap"><img src="images/logo.svg" alt="" width="147" height="33" class="logo-img" /></div>
+        </div>
+        <div class="main-menu">
+            <nav class="main-menu-wrap">
+                <ul class="menu-ul">
+                    <li class="menu-item"><span class="group-title">Medicine</span></li>
+                    <li class="menu-item">
+                        <a class="item-link" href="<%= baseURL %>/dashboard"><span class="link-icon icofont-thermometer-alt"></span> <span class="link-text">Dashboard</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item-link" href="#"><span class="link-icon icofont-stethoscope-alt"></span> <span class="link-text">Appointments</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item-link" href="<%= baseURL %>/doctors"><span class="link-icon icofont-doctor"></span> <span class="link-text">Doctors</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item-link" href="#"><span class="link-icon icofont-nurse"></span> <span class="link-text">Departments</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item-link" href="<%= baseURL %>/patients"><span class="link-icon icofont-paralysis-disability"></span> <span class="link-text">Patients</span></a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item-link" href="<%= baseURL %>/payments"><span class="link-icon icofont-pay"></span> <span class="link-text">Payments</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="add-patient">
+           
+        </div>
+        <div class="assistant-menu">
+            <a class="link" href="#"><span class="link-icon icofont-ui-settings"></span>Settings </a>
+            <a class="link" href="#"><span class="link-icon icofont-question-square"></span>FAQ &amp; Support</a>
+        </div>
+        <div class="navbar-skeleton vertical">
+            <div class="top-part">
+                <div class="sk-logo bg animated-bg"></div>
+                <div class="sk-menu">
+                    <span class="sk-menu-item menu-header bg-1 animated-bg"></span> <span class="sk-menu-item bg animated-bg w-75"></span> <span class="sk-menu-item bg animated-bg w-80"></span>
+                    <span class="sk-menu-item bg animated-bg w-50"></span> <span class="sk-menu-item bg animated-bg w-75"></span> <span class="sk-menu-item bg animated-bg w-50"></span>
+                    <span class="sk-menu-item bg animated-bg w-60"></span>
+                </div>
+                <div class="sk-menu">
+                    <span class="sk-menu-item menu-header bg-1 animated-bg"></span> <span class="sk-menu-item bg animated-bg w-60"></span> <span class="sk-menu-item bg animated-bg w-40"></span>
+                    <span class="sk-menu-item bg animated-bg w-60"></span> <span class="sk-menu-item bg animated-bg w-40"></span> <span class="sk-menu-item bg animated-bg w-40"></span>
+                    <span class="sk-menu-item bg animated-bg w-40"></span> <span class="sk-menu-item bg animated-bg w-40"></span>
+                </div>
+                <div class="sk-menu"><span class="sk-menu-item menu-header bg-1 animated-bg"></span> <span class="sk-menu-item bg animated-bg w-60"></span> <span class="sk-menu-item bg animated-bg w-50"></span></div>
+                <div class="sk-button animated-bg w-90"></div>
+            </div>
+            <div class="bottom-part">
+                <div class="sk-menu"><span class="sk-menu-item bg-1 animated-bg w-60"></span> <span class="sk-menu-item bg-1 animated-bg w-80"></span></div>
+            </div>
+            <div class="horizontal-menu">
+                <span class="sk-menu-item bg animated-bg"></span> <span class="sk-menu-item bg animated-bg"></span> <span class="sk-menu-item bg animated-bg"></span> <span class="sk-menu-item bg animated-bg"></span>
+                <span class="sk-menu-item bg animated-bg"></span> <span class="sk-menu-item bg animated-bg"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end Vertical navbar -->

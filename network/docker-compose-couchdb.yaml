@@ -1,0 +1,64 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+networks:
+  medicnetwork:
+
+services:
+  couchdb.peer0.allparticipants.medic-app.com:
+    container_name: couchdb.peer0.allparticipants.medic-app.com
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=peer0_admin
+      - COUCHDB_PASSWORD=peer0_adminpw
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton3 User Interface in dev environments.
+    ports:
+      - "5984:5984"
+    networks:
+      - medicnetwork
+
+  peer0.allparticipants.medic-app.com:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer0.allparticipants.medic-app.com:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=peer0_admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=peer0_adminpw
+    depends_on:
+      - couchdb.peer0.allparticipants.medic-app.com
+
+  couchdb.peer1.allparticipants.medic-app.com:
+    container_name: couchdb.peer1.allparticipants.medic-app.com
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+      - COUCHDB_USER=peer1_admin
+      - COUCHDB_PASSWORD=peer1_adminpw
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - "6984:5984"
+    networks:
+      - medicnetwork
+
+  peer1.allparticipants.medic-app.com:
+    environment:
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb.peer1.allparticipants.medic-app.com:5984
+      # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+      # provide the credentials for ledger to connect to CouchDB.  The username and password must
+      # match the username and password set for the associated CouchDB.
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=peer1_admin
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=peer1_adminpw
+    depends_on:
+      - couchdb.peer1.allparticipants.medic-app.com

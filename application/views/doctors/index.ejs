@@ -1,0 +1,54 @@
+<%- extend('../layouts/app') %>
+
+<main class="main-content">
+    <div class="main-content-wrap">
+        <div class="add-patient" style="float: right;">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#add-doctor"><span class="btn-icon icofont-plus mr-2"></span> Add Doctor</button>
+        </div>
+        <header class="page-header"><h1 class="page-title">Doctors List</h1></header>
+        <div class="page-content">
+            <div class="row">
+                <% response.body.forEach(element => { %>
+                    <div class="col-12 col-md-4">
+                        <div class="contact">
+                            <div class="img-box"><img src="images/doctor-400-1.jpg" width="400" height="400" alt="" /></div>
+                            <div class="info-box">
+                                <h4 class="name"><%= element.name %> </h4>
+                                <p class="role">Designation: <%= element.designation %></p>
+                                <p class="role"><%= element.mobile %> | <%= element.email %></p>
+                                <p class="address"Address: ><%= element.address %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<!-- Add patients modals -->
+<div class="modal fade" id="add-doctor" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Add new Doctor</h5></div>
+            <form action="<%= baseURL %>/doctors/save" method="GET">
+                <div class="modal-body">
+                        <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Full Name" /></div>
+                        <div class="form-group"><input class="form-control" type="number" name="mobile" placeholder="Mobile No." /></div>
+                        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email id" required/></div>
+                        <div class="form-group"><input class="form-control" type="text" name="designation" placeholder="Designation" required/></div>
+                        <div class="form-group mb-0"><textarea class="form-control" placeholder="Address" name="address" rows="3"></textarea></div>
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button> 
+                        <input class="btn btn-info" type="submit" name="addpatient" value="Add Doctor">
+                        <!-- <button type="button" class="btn btn-info">Add patient</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end Add patients modals -->

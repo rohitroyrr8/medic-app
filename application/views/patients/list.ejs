@@ -1,0 +1,57 @@
+<%- extend('../layouts/app') %>
+
+<main class="main-content">
+    <div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+    <div class="main-content-wrap">
+        <div class="page-content">
+            <div class="card mb-0">
+                <div class="add-patient" style="float: right;">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#add-patient"><span class="btn-icon icofont-plus mr-2"></span> Add Patient</button>
+                </div>
+                <div class="card-header">Patients List</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">DOB</th>
+                                    <th scope="col">Last Visit</th>
+                                    <th scope="col">Mobile No.</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              <% response.body.forEach(element => { %>
+                                <tr>
+                                    <td><img src="/images/user-40-1.jpg" alt="" width="40" height="40" class="rounded-500" /></td>
+                                    <td><strong><%= element.name %> </strong></td>
+                                    <td>
+                                        <div class="d-flex align-items-center nowrap text-primary"><span class="icofont-ui-email p-0 mr-2"></span> <%= element.email %> </div>
+                                    </td>
+                                    <td><div class="text-muted text-nowrap"><%= new Date(element.dateOfBirth).toDateString() %> </div></td>
+                                    <td><div class="text-muted text-nowrap"><%= new Date(element.lastVisit).toDateString() %></div></td>
+                                    <td>
+                                        <div class="d-flex align-items-center nowrap text-primary"><span class="icofont-ui-cell-phone p-0 mr-2"></span> <%= element.mobile %></div>
+                                    </td>
+                                    <td><%= element.address %></td>
+                                    <td>
+                                        <div class="actions">
+                                            
+                                            <button class="btn btn-info btn-sm btn-square rounded-pill"><a href="/patients/show?email=<%= element.email %>" ><span class="btn-icon icofont-ui-edit"></span></a></button>
+                                            <!-- <button class="btn btn-error btn-sm btn-square rounded-pill"><span class="btn-icon icofont-ui-delete"></span></button> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                              <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,111 @@
+version: '2'
+
+volumes:
+  orderer.medic-app.com:
+  peer0.allparticipants.medic-app.com:
+  peer1.allparticipants.medic-app.com:
+
+networks:
+  medicnetwork:
+
+services:
+
+  ca.allparticipants.medic-app.com:
+    image: hyperledger/fabric-ca:1.4.3
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca.allparticipants.medic-app.com
+      - FABRIC_CA_SERVER_TLS_ENABLED=false
+      # - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.allparticipants.medic-app.com-cert.pem
+      # - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/754fccf4ad3f6a483161cf597b79fbdbdadaf1ee2f024e79da8c8e9b8bfb6dcb_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d' # --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.allparticipants.medic-app.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/754fccf4ad3f6a483161cf597b79fbdbdadaf1ee2f024e79da8c8e9b8bfb6dcb_sk
+    volumes:
+      - ./crypto-config/peerOrganizations/allparticipants.medic-app.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca.allparticipants.medic-app.com
+    networks:
+      - medicnetwork
+
+  orderer.medic-app.com:
+    extends:
+      file:   docker-base/docker-compose-base.yaml
+      service: orderer.medic-app.com
+    container_name: orderer.medic-app.com
+    networks:
+      - medicnetwork
+
+  peer0.allparticipants.medic-app.com:
+    container_name: peer0.allparticipants.medic-app.com
+    extends:
+      file:  docker-base/docker-compose-base.yaml
+      service: peer0.allparticipants.medic-app.com
+    networks:
+      - medicnetwork
+  
+  peer1.allparticipants.medic-app.com:
+    container_name: peer1.allparticipants.medic-app.com
+    extends:
+      file:  docker-base/docker-compose-base.yaml
+      service: peer1.allparticipants.medic-app.com
+    networks:
+      - medicnetwork
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:1.4.3
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.allparticipants.medic-app.com:7051
+      - CORE_PEER_LOCALMSPID=allparticipantsMSP
+      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/allparticipants.medic-app.com/users/Admin@allparticipants.medic-app.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./../chaincode/:/opt/gopath/src/github.com/hyperledger/fabric/peer/chaincode/
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - ca.allparticipants.medic-app.com
+      - orderer.medic-app.com
+      - peer0.allparticipants.medic-app.com
+      - peer1.allparticipants.medic-app.com
+    networks:
+      - medicnetwork
+
+  chaincode:
+    container_name: chaincode
+    image: hyperledger/fabric-ccenv:1.4.3
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=chaincode
+      - CORE_PEER_ADDRESS=peer0.allparticipants.medic-app.com:7051
+      - CORE_PEER_LOCALMSPID=allparticipantsMSP
+      - CORE_PEER_TLS_ENABLED=false
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/crypto/peerOrganizations/allparticipants.medic-app.com/users/Admin@allparticipants.medic-app.com/msp
+      - CORE_TLS_CLIENT_KEY_PATH=/opt/gopath/src/crypto/peerOrganizations/allparticipants.medic-app.com/users/Admin@allparticipants.medic-app.com/tls/client.key
+      - CORE_TLS_CLIENT_CERT_PATH=/opt/gopath/src/crypto/peerOrganizations/allparticipants.medic-app.com/users/Admin@allparticipants.medic-app.com/tls/client.crt
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/crypto/peerOrganizations/allparticipants.medic-app.com/users/Admin@allparticipants.medic-app.com/tls/ca.crt
+    working_dir: /opt/gopath/src/chaincode
+    command: /bin/bash -c 'sleep 6000000'
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./../chaincode:/opt/gopath/src/chaincode
+      - ./crypto-config:/opt/gopath/src/crypto
+    networks:
+      - medicnetwork
+

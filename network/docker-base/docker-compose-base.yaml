@@ -1,0 +1,74 @@
+version: '2'
+
+services:
+
+  orderer.medic-app.com:
+    container_name: orderer.medic-app.com
+    image: hyperledger/fabric-orderer:1.4.3
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=false
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      #- GODEBUG=netdns=go
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/medic-app.com/orderers/orderer.medic-app.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/medic-app.com/orderers/orderer.medic-app.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.medic-app.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.allparticipants.medic-app.com:
+    container_name: peer0.allparticipants.medic-app.com
+    extends:
+      file: docker-compose-peer.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.allparticipants.medic-app.com
+      - CORE_PEER_ADDRESS=peer0.allparticipants.medic-app.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.allparticipants.medic-app.com:7053
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7053
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.allparticipants.medic-app.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.allparticipants.medic-app.com:7051
+      - CORE_PEER_LOCALMSPID=allparticipantsMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/allparticipants.medic-app.com/peers/peer0.allparticipants.medic-app.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.allparticipants.medic-app.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+
+  peer1.allparticipants.medic-app.com:
+    container_name: peer1.allparticipants.medic-app.com
+    extends:
+      file: docker-compose-peer.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.allparticipants.medic-app.com
+      - CORE_PEER_ADDRESS=peer1.allparticipants.medic-app.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.allparticipants.medic-app.com:8053
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8053
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.allparticipants.medic-app.com:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.allparticipants.medic-app.com:7051
+      - CORE_PEER_LOCALMSPID=allparticipantsMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/allparticipants.medic-app.com/peers/peer1.allparticipants.medic-app.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/allparticipants.medic-app.com/peers/peer1.allparticipants.medic-app.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.allparticipants.medic-app.com:/var/hyperledger/production
+
+    ports:
+      - 8051:7051
