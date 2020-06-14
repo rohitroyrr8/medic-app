@@ -1,15 +1,14 @@
-# certification-network
-The education can utilise the feature set of blockchain to reduce the difficulties faced in the traditional certification process. By using hyperledger fabric network , you can set up a distributed between the education authority, employer and collleges or universities. Cerfication details can be immutably stored and accessed from the blockchain by anyone in a permissioned way by any organization
+# medic-app
 
 ## Dependencies
 Install these prerequisites in your machine
 - cUrl
 - Golang
 - Python
-- NodeJS & NPM: https://nodejs.org
+- NodeJS & NPM or NVM
 - Docker (Community Edition)
 - Docker compose
-- Hyperledger Fabric Binaries
+- Hyperledger Fabric Binaries v1.4.3
 
 ## Step 1. Clone the project
 `git clone https://github.com/rohitroyrr8/certification-network`
@@ -25,17 +24,13 @@ Install these prerequisites in your machine
 ## Step 4. Installing & Instantiating chaincode
 `./fabricNetwork install`
 
-## Step 5. Invoke Smart contract functions 
-`docker ps -a`
+## Step 5. Upgrade chaincode
+`./fabricNetwork update -v 1.2`
 
-`docker exec -it chaicode /bin/bash`
-
-`npm start-dev`
-
-----on another terminal
-`docker exec -it peer-container-id bash`
-
-`npm run start-dev`
+## Step 6. Start node application
+`cd ../application`
+`npm install`
+`node dist/app.js`
 
 ## Step 6. Down the Fabric network
 `./fabricNetwork down`
