@@ -9,6 +9,7 @@ export class PatientHistoryDetails {
     private attendingDoctor: string;
     private comment: string;
     private payment: Payment;
+    private reportUrl: string;
 
     constructor(patientHistoryDetails: any) {
         if(patientHistoryDetails) {
@@ -20,6 +21,7 @@ export class PatientHistoryDetails {
             this.attendingDoctor = patientHistoryDetails.attendingDoctor;
             this.comment = patientHistoryDetails.comment;
             this.payment = new Payment(patientHistoryDetails.payment);
+            this.reportUrl = patientHistoryDetails.reportUrl;
         }
     }
     encrypt(): void {
@@ -28,6 +30,23 @@ export class PatientHistoryDetails {
     decrypt(): void {
         
     }
+
+    /**
+     * Getter $reportUrl
+     * @return {string}
+     */
+	public get $reportUrl(): string {
+		return this.reportUrl;
+	}
+
+    /**
+     * Setter $reportUrl
+     * @param {string} value
+     */
+	public set $reportUrl(value: string) {
+		this.reportUrl = value;
+	}
+    
     /**
      * Getter $ailment
      * @return {string}

@@ -1,8 +1,12 @@
 import * as express from 'express';
 import { MedicResponse } from '../models/MedicResponse';
 import log4js = require('log4js');
+import multer = require('multer');
+import path = require('path');
+import { report } from 'process';
 const logger = log4js.getLogger('Patient Handler');
 const contractHelper = require('../helpers/contractHelper');
+const UploadUtils = require('../utils/UploadUtils');
 
 export default function patientController(app:express.Application) {
     
@@ -70,6 +74,7 @@ export default function patientController(app:express.Application) {
         let response: MedicResponse = null;
         try {
             const contract = await contractHelper.getContractInstance(req);
+            UploadUtils.pushObject(req, res);
             const request = {
                 ailment: 'cataract',
                 diagnosis: 'cataract classified somewhere',
@@ -179,24 +184,29 @@ export default function patientController(app:express.Application) {
 
     async function savePatientHistory(req: express.Request, res: express.Response) {
         let response: MedicResponse = null;
+        
         try {
             if(!req.session.isLoggedIn) { res.redirect('/auth/login'); }
+            UploadUtils.pushObject(req, res);
+            
             const contract = await contractHelper.getContractInstance(req);
+            console.log(req.body);
+            console.log(req.session.filename);
             const request = {
-                ailment:  req.query.ailment,
-                diagnosis: req.query.diagnosis,
-                treatment: req.query.treatment,
-                admissionDate: req.query.admissionDate,
-                dischargeDate: req.query.dischargeDate,
-                comment: req.query.comment,
+                ailment:  req.body.ailment,
+                diagnosis: req.body.diagnosis,
+                treatment: req.body.treatment,
+                admissionDate: req.body.admissionDate,
+                dischargeDate: req.body.dischargeDate,
+                reportUrl: req.session.filename,
+                comment: req.body.comment,
                 payment: {
-                    amount: req.query.amount,
-                    tax: req.query.tax,
-                    discount: req.query.discount,
+                    amount: req.body.amount,
+                    tax: req.body.tax,
+                    discount: req.body.discount,
                 }
-                
             }
-            let patientBuffer: Buffer = await contract.submitTransaction('addPatientHistory', req.query.email, JSON.stringify(request));
+            let patientBuffer: Buffer = await contract.submitTransaction('addPatientHistory', req.body.email, JSON.stringify(request));
             let patientResponse: any = JSON.parse(patientBuffer.toString());
             console.log(patientResponse);
             let message = 'Patient details saved.';
@@ -225,6 +235,6 @@ export default function patientController(app:express.Application) {
     app.get('/payments', listPayments);
     app.get('/patients/show', showPatients);
     app.get('/patients/save', savePatient);
-    app.get('/patients/history/save', savePatientHistory);
+    app.post('/patients/history/save', savePatientHistory);
 }
 

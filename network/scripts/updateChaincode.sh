@@ -40,7 +40,7 @@ echo "Installing chaincode on peer0.allparticipants.medic-app.com ..."
 installChaincode 0 'allparticipants' $VERSION
 
 echo "Installing chaincode on peer1.allparticipants.medic-app.com ..."
-# installChaincode 1 'allparticipants' $VERSION
+installChaincode 1 'allparticipants' $VERSION
 
 # Upgrade chaincode on the channel using peer0.allparticipants
 echo "Upgrading chaincode on channel using peer0.allparticipants.medic-app.com ..."

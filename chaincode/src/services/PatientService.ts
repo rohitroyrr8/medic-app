@@ -92,6 +92,7 @@ export class PatientService {
 
     public async addHistory(ctx: MedicnetContext, email: string, request: string) {
         try {
+            console.log(JSON.parse(request));
             let history: PatientHistoryDetails = new PatientHistoryDetails(JSON.parse(request));
 
             if(CommonUtils.isObjectBlankOrEmpty(email)) { throw new InvalidInputError('patient email is required.')};

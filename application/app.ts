@@ -24,11 +24,11 @@ const app = express();
 app.locals.baseURL = baseURL;
 app.options('*', cors());
 app.use(cors());
-// app.use(bodyParser({limit: '50mb'}));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({
-//     extended: false
-// }))
+app.use(bodyParser({limit: '50mb'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 // app.set('secret', jwtSecret);
 // app.use(expressJWT({
 //     secret: jwtSecret,
