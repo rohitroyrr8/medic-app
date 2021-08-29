@@ -10,6 +10,9 @@ Install these prerequisites in your machine
 - Docker compose
 - Hyperledger Fabric Binaries v1.4.3
 
+## Step 0. Downloading fabric binaries
+  curl https://raw.githubusercontent.com/hyperledger/fabric/master/scripts/bootstrap.sh | bash -s -- 1.4.3 1.4.3 -d -s
+
 ## Step 1. Clone the project
 `git clone https://github.com/rohitroyrr8/medic-app.git`
 
